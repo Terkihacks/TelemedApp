@@ -4,8 +4,6 @@
 const db = require('../config/db');
 const express = require('express');
 const session = require('express-session');
-
-
 const app = express;
 
 //Configure session storage

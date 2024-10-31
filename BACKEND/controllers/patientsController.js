@@ -14,7 +14,7 @@ class PatientController {
         // Check if a user already exists with the given email
         const existingPatient = await Patient.findByEmail(email);
         if (existingPatient) {
-          return res.status(400).json({ message: 'Email already exists' });
+          return res.status(400).json({ message: 'Email already exists,register for a new Account' });
         }
   
         // Hash password
