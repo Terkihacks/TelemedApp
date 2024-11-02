@@ -6,7 +6,7 @@ const Patient = require('../models/Patient');
 
 class PatientController {
     // Register a new patient
-    static async register(req, res) {
+    static async register(req, res){
       try {
         // Fetch the data from the frontend
         const { first_name, last_name, email, password, phone, date_of_birth, gender, address } = req.body;

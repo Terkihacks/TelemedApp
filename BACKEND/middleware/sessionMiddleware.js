@@ -1,30 +1,23 @@
-//Lets create the session midleware
-//Import our db connection and packages
-
+// sessionMiddleware.js
 const db = require('../config/db');
-const express = require('express');
 const session = require('express-session');
-const app = express;
+const MySQLStore = require('express-mysql-session')(session);
 
-//Configure session storage
+const sessionStore = new MySQLStore({}, db);
 
-const MySQLStore = require('express-mysql-session')('session');
-const sessionStore = new MySQLStore({},db)
+const sessionMiddleware = session({
+  secret: process.env.SESSION_SECRET,
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60, secure: false }
+});
 
-//Lets setup the middleware session
+// function isAuthenticated(req, res, next) {
+//   if (req.session.user) {
+//     return next();
+//   }
+//   res.status(401).send('Unauthorized');
+// }
 
-app.use(
- session( {
-        secret:process.env.SESSION_SECRET,
-        store:sessionStore,
-        resave:false,
-        saveUninitialized:false,
-        cookie:{
-          maxAge: 1000* 60 *60, //1hr
-          secure:false,
-        }}
- )
-)
-
-
-
+module.exports =  sessionMiddleware;

@@ -14,16 +14,24 @@ async function createAdmin(req, res) {
 // Get admin by ID
 async function getAdmin(req, res) {
     const {username } = req.params;
-
-    try {
-        const admin = await AdminModel.findByUsername(username);
-        if (!admin) {
-            return res.status(404).json({ error: 'Admin not found' });
+    const userRole = req.user.role;
+    if(userRole === 'SuperAdmin'||  userRole === 'Admin'){
+        try {
+            const admin = await AdminModel.findByUsername(username);
+            if (!admin) {
+                return res.status(404).json({ error: 'Admin not found' });
+            }
+            res.status(200).json(admin);
+        } catch (error) {
+            res.status(500).json({ error: 'Failed to fetch admin' });
         }
-        res.status(200).json(admin);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch admin' });
+    
+    } else{
+        return res.status(403).json({ error: 'Unauthorized to access to access this page' });
+
     }
+
+  
 }
 
 // Update an admin

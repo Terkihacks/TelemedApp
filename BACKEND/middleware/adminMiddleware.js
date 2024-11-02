@@ -23,7 +23,6 @@ const adminMiddleware = (requireRole) => {
 
         // Deny access if no conditions are met
         return res.status(403).json({ message: 'Access denied' });
-
         
     }
 }
