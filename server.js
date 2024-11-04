@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const sessionMiddleware = require('./BACKEND/middleware/sessionMiddleware'); // Import the middleware
 const patientRoutes = require('./BACKEND/routes/patientRoutes');
 const doctorRoutes = require('./BACKEND/routes/doctorRoutes');
-const appointmentRoutes = require('./BACKEND/controllers/appointmentController');
+const appointmentRoutes = require('./BACKEND/routes/appointmentRoutes');
 
 const app = express();
 dotenv.config();

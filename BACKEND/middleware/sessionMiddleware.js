@@ -13,11 +13,4 @@ const sessionMiddleware = session({
   cookie: { maxAge: 1000 * 60 * 60, secure: false }
 });
 
-// function isAuthenticated(req, res, next) {
-//   if (req.session.user) {
-//     return next();
-//   }
-//   res.status(401).send('Unauthorized');
-// }
-
 module.exports =  sessionMiddleware;

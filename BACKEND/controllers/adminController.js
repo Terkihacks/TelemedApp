@@ -30,7 +30,6 @@ async function getAdmin(req, res) {
         return res.status(403).json({ error: 'Unauthorized to access to access this page' });
 
     }
-
   
 }
 

@@ -1,5 +1,4 @@
 // middleware/adminMiddleware.js
-//Lets create a function for this 
 
 const adminMiddleware = (requireRole) => {
     return (req, res, next) => {
@@ -11,7 +10,7 @@ const adminMiddleware = (requireRole) => {
         const userRole = req.user.role;
 
         // Allow access if the user has the required role or is a Super Admin
-        if (userRole === requireRole || userRole === 'Super Admin') {
+        if ( userRole === 'Super Admin') {
             return next();
         } 
 
