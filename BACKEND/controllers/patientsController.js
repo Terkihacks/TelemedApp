@@ -2,7 +2,6 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 const Patient = require('../models/Patient');
-// const sessionMiddleware = require('../middleware/sessionMiddleware')
 
 class PatientController {
     // Register a new patient
@@ -12,11 +11,12 @@ class PatientController {
         const { first_name, last_name, email, password, phone, date_of_birth, gender, address } = req.body;
         console.log(req.body); // Log the incoming request body
         // Check if a user already exists with the given email
-        const existingPatient = await Patient.findByEmail(email);
-        if (existingPatient) {
-          return res.status(400).json({ message: 'Email already exists,register for a new Account' });
+        const[rows] =  await db.execute('SELECT * FROM users WHERE email = ? ', [email]);
+
+        if(rows.length > 0){
+           return res.status(400).json({message: 'Email already exist,register for a new Account'});
         }
-  
+      
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
   
@@ -36,12 +36,15 @@ class PatientController {
     static async login(req, res) {
       try {
         const { email, password } = req.body;
+
   
         // Check if the patient exists by email
         const patient = await Patient.findByEmail(email);
         if (!patient) {
           return res.status(400).json({ message: 'Email does not exist' });
         }
+        //Implement the loging controller here 
+        
   
         // Compare the submitted password with the hashed password in the database
         const isMatch = await bcrypt.compare(password, patient.password_hash);

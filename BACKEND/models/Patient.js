@@ -19,6 +19,7 @@ class Patient {
                 ]
             );
             return result[0].insertId; // Returns the ID of the newly inserted patient
+
         } catch (error) {
             console.error('Error creating patient:', error);
             throw new Error('Could not create patient'); // Rethrow with a user-friendly message
@@ -80,18 +81,7 @@ class Patient {
             console.error('Error deleting patient:', error);
             throw new Error('Could not delete patient'); // Rethrow with a user-friendly message
         }
-    }
-
-    
-    static async findByEmail(email) {
-         try {
-         const [rows] = await db.execute('SELECT * FROM patients WHERE email = ?', [email]);
-         return rows.length > 0 ? rows[0] : null;  // Return patient data if found, otherwise null
-    } catch (error) {
-      console.error('Error finding patient by email:', error);
-      throw new Error('Could not retrieve patient by email');
-    }
-  }
+    }    
   
 }
 

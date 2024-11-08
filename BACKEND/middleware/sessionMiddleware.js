@@ -10,7 +10,9 @@ const sessionMiddleware = session({
   store: sessionStore,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60, secure: false }
+  cookie: {
+     maxAge: 1000 * 60 * 60,
+     secure: false }
 });
 
 module.exports =  sessionMiddleware;
