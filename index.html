@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design Tele Med App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Create the header which will include
+    Logo - TeleCare+
+    Navigation bar
+         Home – A landing page that provides an overview of the app and featured services.
+         Consultations – Quick access to start or schedule a video or chat consultation with a healthcare provider.
+         Health Records – A section for users to view their medical history, prescriptions, and test results.
+         Resources – Access to health articles, videos, or FAQs related to telemedicine and specific health conditions.
+         Appointments – A dedicated area to view upcoming appointments, reschedule, or cancel them.
+         Medication Reminders – A feature that allows users to set reminders for medications and track adherence.
+         Messages – A messaging system for secure communication between patients and healthcare providers.     
+    -->
+
+  
+<nav class="navbar">
+    <!-- Logo -->
+    <div class="logo"> <h1>TeleCare + <i class="fa-solid fa-truck-medical"></i></h1></div>
+     <!-- Lets get the nav details and edit them -->
+   <div class="nav-links" id="navLinks">
+    <ul>
+      <!-- <i class="fas fa-home"></i>
+      <i class="fa-solid fa-user-doctor"></i>
+      <i class="fa-solid fa-file-medical"></i>
+      <i class="fas fa-calendar-alt"></i>
+      <i class="fas fa-envelope"></i>
+      <i class="fas fa-pills"></i>
+      <i class="fas fa-folder-open"></i> -->
+    
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Consultations</a></li>
+          <li><a href="#">Health Records</a></li>
+          <li><a href="#">Appointments</a></li>
+          <!-- <li>Medication Reminders</li> -->
+          <li><a href="#">Messages</a></li>
+          <li><a href="#">Resources</a></li>
+       </ul>
+   </div>
+     <div class="location-Search" >
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="search" name="" id="" placeholder="Search Location">
+     </div>
+     <!-- Lets create the hamburger menu -->
+     <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+</nav>
+
+    <!-- Lets do the Hero Section -->
+
+    <section class="heroSection">
+      <div class="heroContent">
+        <h1>Your Health, Anytime, Anywhere</h1>
+        <h2>Connect with top healthcare professionals through secure video consultations, 
+          empowering you to take control of your health from the comfort of your home.
+         </h2>
+         <h3 class="keyFeatures">Key Features</h3>
+         <p class="keyFeatures">✅ 24/7 Access: Get medical advice whenever you need it, day or night.</p>
+         <p class="keyFeatures">✅Qualified Doctors:Consult with licensed specialist in various fields</p>
+         <p class="keyFeatures">✅User-Friendly Interface: Easy navigation for a seamless experience</p>
+         <p class="keyFeatures">✅Secure & Private: Your health information is protected with end-to-end encryption.</p>
+         <h4>Get Started Today!
+            Download the app and schedule your first consultation for free.</h4>  
+           <a href="/BACKEND/Frontend/UserAuthentication/register.html"> <button class="getStarted">Get Started</button>  </a>
+      </div>
+    </section>
+
+    <!-- Lets make Our Partners Sections with a sliding Carossel -->
+
+<section id="partners">
+    <h2>Trusted by Leading Healthcare Providers</h2>
+    <p >
+      We are proud to partner with renowned hospitals, clinics, and health organizations to bring you the best care possible.
+    </p>
+
+    <div class="partners-logos">
+      <img src="Partner.jpg" alt="Partner 1">
+      <img src="Partner.jpg" alt="Partner 2">
+      <img src="Partner.jpg" alt="Partner 3">
+      <img src="Partner.jpg" alt="Partner 4">
+      <img src="Partner.jpg" alt="Partner 5">
+      <img src="Partner.jpg" alt="Partner 6">
+    </div>
+  </section>
+
+  <!-- Lets make a Blog -->
+ 
+  <section id="articles">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h2 style="font-family:'Poppins','sans-serif'; font-size: 36px; font-weight: 700; color: #1E3A8A;">Latest Articles & Insights</h2>
+      <p style="font-family: 'Roboto', sans-serif; font-size: 18px; color: #4B5563;">
+        Stay updated with the latest trends in telemedicine, healthcare technology, and wellness tips from our expert contributors.
+      </p>
+    </div>
+
+<div class="cardSection">
+<div class="Box1">
+<img src="Partner.jpg" alt="Telemedicine App image">
+  
+<div class="blogContent">
+    <h2>Revolutionizing Healthcare with Our Telemedicine App</h2>
+    <p>Our telemedicine app connects you with certified doctors anytime, anywhere, making healthcare more accessible and convenient.</p>
+    <ul>
+        <li>24/7 access to healthcare professionals</li>
+        <li>Easy appointment scheduling and video consultations</li>
+        <li>Secure storage of medical records</li>
+      </ul>
+      <a href="/blog/telemedicine">Read More</a>
+</div>
+    
+</div>
+<div class="Box1">
+    <img src="mobidoc.jpg" alt="Telemedicine App image">
+      
+    <div class="blogContent">
+        <h2>The Future of Healthcare: AI Integration in Telemedicine</h2>
+        <p>AI is playing a crucial role in telemedicine, enhancing diagnostic accuracy and streamlining patient care through data analysis and smart consultations.</p>
+        <ul>
+            <li>AI-driven diagnostics for faster and accurate results</li>
+            <li>Smart consultations with advanced health monitoring</li>
+            <li>Improved patient data analysis and record keeping</li>
+          </ul>
+          <a href="/blog/telemedicine">Read More</a>
+    </div>
+        
+    </div>
+    <div class="Box1">
+        <img src="mobidoc2.jpg" alt="Telemedicine App image">
+          
+        <div class="blogContent">
+            <h2>How Telemedicine Improves Mental Health Care</h2>
+            <p>Telemedicine is revolutionizing mental health care by providing remote access to therapists, reducing stigma, and making mental health services more accessible.</p>
+            <ul>
+                <li>Remote therapy sessions for patients in need</li>
+                <li>Confidential and secure mental health consultations</li>
+                <li>Reducing stigma around seeking mental health help</li>
+                <li>Easy access of remote help for the aged</li>
+              </ul>
+              <a href="/blog/telemedicine">Read More</a>
+        </div>
+            
+    </div>
+  </div>
+</section>
+
+
+<!-- Lets develop the News Letter with a subscription -->
+
+<script src="index.js"></script>
+</body>
+</html>
