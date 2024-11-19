@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/patient', patientRoutes);
 
 app.get('/',(request,response) =>{
-  response.sendFile(path.join(__dirname,'testform.html'));
+  response.sendFile(path.join(__dirname,'index.html'));
 })
 
 

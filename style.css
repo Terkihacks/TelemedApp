@@ -1,0 +1,533 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+    margin: 10px;
+    padding: 0;
+/* Im importing google styles */
+}
+
+body{
+font-family: "Lexend", sans-serif;
+background-color: white; 
+color: black;
+}
+
+/* Lets start Styling the Head Section */
+h1{
+    font-weight: 900;
+}
+    .navbar {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-image: url('./images/Hero.jpg');
+      font-weight:100;
+      color: #fff;
+      top: 0;
+      z-index: 1000;
+      position: sticky;
+      padding: 0.5rem;
+      cursor: pointer;
+      font-size: larger;
+      flex-wrap: nowrap;
+      font-weight:100;
+    }
+    .navbar .logo {
+      font-size: 1.5em;
+    }
+
+/* Lets style the links */
+.navbar .nav-links ul {
+  list-style: none;
+  display: flex;
+}
+.navbar .nav-links ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: larger;
+}
+.navbar .nav-links ul li a:hover{
+  color: white;
+}
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+}
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px;
+}
+
+span{
+    color: white;
+}
+.location-Search{
+    position: relative;
+    width: 300px;  /* Adjust the width as needed */
+}
+/* The .location-Search div wraps both the icon and the input field */
+
+.location-Search input{
+    width: 100%;
+    padding: 10px 40px;  /* Add padding for the icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+/* The icon is positioned using absolute inside the container,
+ while the input is padded to prevent the text from overlapping the icon. */
+.location-Search .fa-map-marker-alt {
+    position: absolute;
+    align-items: center;
+    top: 35%;
+    left: 15px;  /* Adjust the left value based on input padding */
+    transform: translateY(-50%);
+    color: black;
+  }
+  .location-Search input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  
+  /* Lets style our Hero section */
+  /* .head-section{
+    background-image: url('/Hero.jpg');
+    height: min-content;
+    margin-bottom: 2rem;
+  } */
+
+  .heroSection{
+    background-image: url('./images/Hero.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 83vh;
+    position: relative;
+  }
+ 
+  .heroContent{
+    position: absolute;
+    display: flex;
+    flex-direction:column;
+    column-gap: 2rem;
+    flex-wrap: wrap;
+    padding: 0rem;
+    /* line-height: 1.; */
+    width: 80vh;
+    margin: 3rem;
+  }
+  .heroContent h1{
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size:50px;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #1E3A8A;
+  }
+  .heroContent h2{
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 32px;
+    letter-spacing: 1.2px;
+    line-height: 1.5;
+    color: #4B5563;
+  }
+  .keyFeatures{
+    font-family: "Roboto", sans-serif;
+    font-weight: bolder;
+    font-style: normal;
+    font-size: 16px;
+    letter-spacing: 0;
+    /* line-height: 1.6; */
+    color:black;
+  }
+.heroContent h4{
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size:16px;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  color: white;
+
+}
+  /* Lets style the button */
+.getStarted{
+  width: 10em;
+  position: relative;
+  height: 3.5em;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  transition: 0.5s;
+  border-radius: 0.3em;
+  font-size: 16px;
+  font-weight: bolder;
+  cursor: pointer;
+  border-color: lightblue;
+}
+.getStarted:hover{
+  background-color: #3B82F6;
+  cursor: pointer;
+}
+
+
+/* Lets style our Partners Section */
+#partners{
+  text-align: center;
+  padding: 40px 0;
+  gap: 40px;
+  margin-top: 40px;
+  text-align: center;
+}
+
+#partners h2{
+  font-family: 'Poppins','sans-serif';
+  font-size: 36px;
+  font-weight: 700;
+  color:#1E3A8A;
+  margin: 20px 0;
+}
+
+#partners p{
+  font-family: 'Poppins',sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #4B5563;
+  margin: 20px 0;
+}
+
+.partners-logos{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+.partners-logos img{
+  max-width: 250px;
+  border-radius: 10px;
+  transform: filter 0.3s;
+}
+
+/* Lets create a Article/Blog Section for our Company */
+
+#articles{
+  padding: 50px 20px ;
+  background-image: url('./images/Hero.jpg');
+}
+ #article{
+ align-items: center;
+ justify-content: center;
+ margin-bottom: 40px;
+ padding-left: 20px;
+ }
+ 
+ .cardSection{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  
+ }
+
+ .Box1{
+  border-radius: 8px;
+  max-width: 400px;
+  height: fit-content;
+  /* border-radius: 10px; */
+  background: white;
+  border: 1px solid #ccc;
+  /* transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); */
+ }
+
+ .Box1 img{
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  margin: 0;
+  overflow: hidden;
+  padding-bottom: 5px;
+ }
+.Box1 .blogContent{
+  padding: 16px;
+}
+
+.blogContent h2{
+font-size: 1.5em;
+margin-bottom: 0.5em;
+}
+
+.blogContent p{
+  font-size: 1em; color: #555;
+}
+.blogContent ul{
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+.blogContent a {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 20px ;
+  background-color:#007BFF;
+  color: white;
+  text-decoration: none;
+   border-radius: 4px;
+}
+
+
+/* MEDIA QUERIES */
+/* Larger Screens */
+@media (max-width: 768px) {
+  .heroSection {
+      height: 60vh; /* Adjust height for smaller screens */
+  }
+  .heroContent h1 {
+      font-size: 7.5rem;
+      font-size: 10px;
+  }
+  .heroContent h2 {
+      font-size: 1.8rem;
+  }
+  .heroContent h4 {
+      font-size: 1.2rem;
+  }
+}
+
+/* Small screens */
+@media (min-width: 768px) {
+  .heroContent {
+    width: 80vh;
+    margin: 4rem;
+  }
+  
+  .navbar .nav-links ul {
+    gap: 20px;
+  }
+
+  .getStarted {
+    width: 12em;
+    height: 3em;
+  }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+  *{
+    padding: 0;
+    margin: 0;
+  }
+ .navbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 50px;
+  margin-bottom: 2px;
+ }
+
+  .nav-links {
+    position: absolute;
+    right: 0;
+    top: 70px;
+    background-image: url('./images/Hero.jpg');
+    width: 100%;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-links ul {
+    flex-direction: column;
+  }
+
+  .nav-links ul li {
+    margin: 20px 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logo h1{
+    font-size: 1.5rem;
+  }
+  .location-Search{
+    position: relative;
+    width: auto;  /* Adjust the width as needed */
+}
+
+.location-Search input{
+  width: 90%;
+  padding: 10px 40px;  /* Add padding for the icon */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 12px;
+}
+.location-Search .fa-map-marker-alt {
+  position: absolute;
+  align-items: center;
+  top: 50%;
+  left: 15px;  /* Adjust the left value based on input padding */
+  transform: translateY(-50%);
+  color: black;
+}
+.location-Search input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+
+/* Lets style the hero section */
+
+.heroSection{
+  background-image: url('./images/Hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.heroContent{
+  position: absolute;
+  display: flex;
+  flex-direction:row;
+  column-gap: 2rem;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  line-height: 1.5rem;
+  width: 100vh;
+  margin: 3rem;
+  height: fit-content;
+}
+.heroContent h1{
+font-family: "Poppins", sans-serif;
+font-weight: bolder;
+font-size:28px;
+font-style: normal;
+line-height: 1.5;
+letter-spacing: -0.5px;
+color: #1E3A8A;
+}
+.heroContent h2{
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0px;
+  line-height: 1.5;
+  color: #4B5563;
+}
+.keyFeatures{
+  font-family: "Roboto", sans-serif;
+  font-weight: bolder;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0;
+  /* line-height: 1.6; */
+  color:black;
+}
+.heroContent h4{
+font-family: "Poppins", sans-serif;
+font-weight: 600;
+font-size:16px;
+font-style: normal;
+line-height: 1.5;
+letter-spacing: 0.2px;
+color: white;
+margin-top: 10px;
+
+}
+/* Lets style the button */
+.getStarted{
+  margin-top: 0.5rem;
+width: 10em;
+position: relative;
+height: 3.5em;
+outline: none;
+background-color: transparent;
+color: white;
+transition: 0.5s;
+border-radius: 0.3em;
+font-size: 16px;
+font-weight: bolder;
+cursor: pointer;
+border-color: lightblue;
+}
+
+#partners{
+  text-align: center;
+  padding: 10px 0;
+  gap: 40px;
+  margin-top: 1px;
+  text-align: center;
+}
+
+  .partners-logos img {
+    max-width: 180px;
+  }
+
+  .Box1{
+    border-radius: 8px;
+    max-width: 400px;
+    height: fit-content;
+    /* border-radius: 10px; */
+    background: white;
+    border: 1px solid #ccc;
+    /* transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); */
+   }
+
+  .cardSection {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Smaller screens (mobile devices) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5rem;
+    font-size: medium;
+  }
+
+  .navbar .nav-links ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .location-Search {
+    width: 200px;
+  }
+
+  .heroSection {
+    height: 50vh;
+  }
+
+  .heroContent {
+    width: 40vh;
+    margin: 1.5rem;
+  }
+
+  .partners-logos img {
+    max-width: 150px;
+  }
+
+  .Box1 {
+    max-width: 250px;
+  }
+
+  .getStarted {
+    width: 8em;
+    height: 2.5em;
+  }
+}

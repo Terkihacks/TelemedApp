@@ -1,11 +1,21 @@
 const express = require('express');
-const router = express();
-// const sessionMiddleware = require('../middleware/sessionMiddleware')
-const {registerPatient} = require('../controllers/patientsController');
-// const adminMiddleware = require('../middleware/adminMiddleware');
+const router = express.Router();
+const {registerPatient,loginPatient} = require('../controllers/patientsController');
+const jwtTokenMiddleware = require('../middleware/jwtTokenMiddleware')
 
 router.post('/register',registerPatient);
-// router.post('/login',sessionMiddleware,adminMiddleware,PatientController.login);
+router.post('/login',loginPatient);
+router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
+    // The req.user contains user info extracted from the token
+    const user = req.user;
+    // Respond with a message and user details
+    res.json({ 
+        message: 'Welcome to your dashboard!',
+        user: user
+    });
+});
+
+
 // router.put('/update/:id',PatientController.update);
 // router.delete('/delete/:id',PatientController.delete);
 // // router.post('patients/logout',PatientController.logout);
