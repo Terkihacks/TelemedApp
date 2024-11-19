@@ -55,7 +55,8 @@ const jwt = require('jsonwebtoken')
           //Generation of the token
           const token = jwt.sign(
             {
-              email:user.email
+              email:user.email,
+              first_name:user.first_name
             },
             process.env.SECRET_KEY,
             {

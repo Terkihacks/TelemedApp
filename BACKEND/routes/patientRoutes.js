@@ -8,11 +8,7 @@ router.post('/login',loginPatient);
 router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
     // The req.user contains user info extracted from the token
     const user = req.user;
-    // Respond with a message and user details
-    res.json({ 
-        message: 'Welcome to your dashboard!',
-        user: user
-    });
+
 });
 
 
