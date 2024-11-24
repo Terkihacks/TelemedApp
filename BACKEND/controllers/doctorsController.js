@@ -25,9 +25,32 @@ const bcrypt = require('bcryptjs');
         try{
         
             const{email,password} = req.body || null;
-            const[rows] =  await db.execute()
+            const[rows] =  await db.execute('SELECT * FROM doctors WHERE email = ?',[email]);
+            if(rows.length === 0){
+                return res.status(400).json({message:"User found,register for a new one"})
+            }
+            const doc = rows[0];
+            const isMatch = await bcrypt.compare(password,user.password);
+            if(!isMatch){
+                return res.status(400).json({message:"Invalid Credentials"});
+            }
+            else{
+                //Generate a token
+                const token = jwt.sign(
+                    {
+                        email:doc.email,
+                        first_name:doc.first_name
+                    },
+                    process.env.SECRET_KEY,
+                    {
+                        expiresIn:'1hr'
+                    }
+                )
+                res.status(200).json({ message: 'Login successful', token });
+            }           
         }catch(error){
-
+            console.log(error);
+            res.status(500).json({ message: 'Error logging in Patient', error });
         }
     }
     // // READ: Get a specific doctor by ID

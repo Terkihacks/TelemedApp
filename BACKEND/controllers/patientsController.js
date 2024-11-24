@@ -76,6 +76,32 @@ const jwt = require('jsonwebtoken')
 
     };
 
+    exports.updatePatient = async(req,res) =>{
+     
+      try{
+        const{id} = req.params;
+        const{first_name,last_name,phone,date_of_birth,gender,address} = req.body || null;
+      
+        const updatedData = { first_name, last_name, phone, date_of_birth, gender, address };
+        
+        const[result] = await db.query(
+          `UPDATE patients SET first_name = ?, last_name = ?, phone = ?, date_of_birth = ?, gender = ?, address = ?, updated_at = NOW() WHERE id = ?`,
+        [first_name, last_name, phone, date_of_birth, gender, address, id]
+        );
+  
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Patient not found' });
+        }
+        res.status(200).json({ message: 'Patient data updated successfully' });
+
+      }catch(error){
+        console.error('Error updating patient:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    
+      }
+
+    }
+
   //   // Update patient profile
   //   static async update(req, res) {
   //     try {
