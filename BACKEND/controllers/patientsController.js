@@ -54,9 +54,10 @@ const jwt = require('jsonwebtoken')
         else{
           //Generation of the token
           const token = jwt.sign(
-            {
+            { 
+              id:user.id,
               email:user.email,
-              first_name:user.first_name
+              first_name:user.first_name,
             },
             process.env.SECRET_KEY,
             {
@@ -65,8 +66,7 @@ const jwt = require('jsonwebtoken')
           )
           //Send token back to the client
           res.status(200).json({ message: 'Login successful', token });
-          //Return a successful message
-          // res.status(200).json({message:'Patient logged in successfully',user})
+          
         }
         
       }catch(error){
