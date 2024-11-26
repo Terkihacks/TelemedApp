@@ -102,27 +102,7 @@ const jwt = require('jsonwebtoken')
 
     }
 
-  //   // Update patient profile
-  //   static async update(req, res) {
-  //     try {
-  //       const { id, first_name, last_name, phone, date_of_birth, gender, address } = req.body;
-  
-  //       // Check if the patient exists
-  //       const patient = await Patient.findById(id);
-  //       if (!patient) {
-  //         return res.status(400).json({ message: 'Patient does not exist' });
-  //       }
-  
-  //       // Update the patient data (but not email or password_hash)
-  //       const updatedData = { first_name, last_name, phone, date_of_birth, gender, address };
-  //       await Patient.update(id, updatedData);
-  
-  //       res.status(200).json({ message: 'Patient profile updated successfully' });
-  //     } catch (error) {
-  //       console.log(error);
-  //       res.status(500).json({ message: 'Error updating patient profile', error });
-  //     }
-  //   }
+ 
   
   //   // Delete patient account
   //   static async delete(req, res) {
