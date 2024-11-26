@@ -1,13 +1,34 @@
-const appointmentModel =  require('../models/Appointment');
- 
-//Create methods 
+//Import Packages
+const db = require('../config/db');
 async function createAppointment(req,res){
     //Fetch info from the request body and perform the http requests
     const {patient_id,doctor_id,appointment_date,appointment_time,status} = req.body;
      // Catch errors
      try{
-        const appointmentId = await appointmentModel.create(patient_id,doctor_id,appointment_date,appointment_time,status)
-        res.status(201).json({message: "Appointment created successfully",id:appointmentId});
+     //Join the tables patients and doctors to obtain the patient_id and doctor_id
+     const joinQuery = `
+     SELECT p.id AS patient_id,
+            d.id AS doctor_id,
+     FROM patients p
+     IINER JOIN Doctors d ON p.id = ? AND d.id = ?
+     `
+     //Perform join query
+     const [rows] = await db.execute(joinQuery,[patientId,doctorId]);
+     // If no matching rows are found, return an error
+    if (rows.length === 0) {
+        return res.status(404).json({ message: 'Patient or Doctor not found' });
+    }
+     //Write queries to insert the data to the database if the doctor and the patient exist
+     const insertQuery = `
+     INSERT INTO Appointments (patient_id, doctor_id, appointment_date, appointment_time, status, created_at)
+     VALUES (?, ?, ?, ?, 'Scheduled', NOW());
+     `;
+     await db.execute(insertQuery, [patientId, doctorId, appointmentDate, appointmentTime]);
+
+     // Return success message
+     res.status(201).json({ message: 'Appointment created successfully' });
+
+     //Display success messages
      }catch(error){
       res.status(500).json({message:'Failed to create an Appointment'})
      }

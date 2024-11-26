@@ -8,6 +8,17 @@ class Appointment{
     static async create(appointmentData){
 //Lets catch some errors
 try{
+    //Join the two tables and obtain the ids uniquely 
+    const [result] = await db.query(
+        `SELECT
+            p.id AS patient_id,
+            d.id AS doctor_id
+         FROM
+            patients p
+         JOIN 
+            doctors d ON d.id = p.doctor_id` // Adjust join condition based on your schema
+    );
+
 //Insert the appointment into the database
 const [rows] = await db.execute(
 'INSERT INTO appointments ( INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, status)VALUES (?, ?, ?, ?, ?))'
@@ -21,8 +32,10 @@ const [rows] = await db.execute(
 ]
 );
   console.log('Appointment created successfully')
-}catch(error) {
-    console.error('Error creating patient:', error);
+}
+catch(error) {
+ 
+    console.error('Error creating Appointment:', error);
     throw new Error('Could not create patient'); // Rethrow with a user-friendly message
 }
     }
