@@ -11,6 +11,7 @@ router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
     res.json({
         message:"Welcome to your dashboard",
         user:{
+            id:user.id,
             email:user.email,
             first_name:user.first_name,
         }
@@ -18,7 +19,6 @@ router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
 });
 router.put('/updateProf/:id', updatePatient);
 
-// router.put('/update/:id',PatientController.update);
 // router.delete('/delete/:id',PatientController.delete);
 // // router.post('patients/logout',PatientController.logout);
 

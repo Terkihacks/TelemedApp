@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {createDoctor,updatePatient} = require('../controllers/doctorsController');
+const {createDoctor,loginDoctor,getDocById} = require('../controllers/doctorsController');
 
 router.post('/register', createDoctor);
-// router.get('/doctors/:id', doctorController.getDoctorById);
+router.post('/login',loginDoctor)
+router.get('/doctors/:id', getDocById);
 // router.get('/doctors', doctorController.getAllDoctors);
 // router.put('/doctors/:id', doctorController.updateDoctor);
 // router.delete('/doctors/:id', doctorController.deleteDoctor);

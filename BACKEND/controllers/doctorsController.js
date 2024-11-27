@@ -27,7 +27,7 @@ const bcrypt = require('bcryptjs');
             const{email,password} = req.body || null;
             const[rows] =  await db.execute('SELECT * FROM doctors WHERE email = ?',[email]);
             if(rows.length === 0){
-                return res.status(400).json({message:"User found,register for a new one"})
+                return res.status(400).json({message:"Doctor not found,register for a new one"})
             }
             const doc = rows[0];
             const isMatch = await bcrypt.compare(password,user.password);
@@ -53,19 +53,23 @@ const bcrypt = require('bcryptjs');
             res.status(500).json({ message: 'Error logging in Patient', error });
         }
     }
-    // // READ: Get a specific doctor by ID
-    // static async getDoctorById(req, res) {
-    //     try {
-    //         const doctorId = req.params.id;
-    //         const doctor = await Doctor.findById(doctorId);
-    //         res.status(200).json(doctor);
-    //     } catch (error) {
-    //         console.error('Error retrieving doctor:', error);
-    //         res.status(404).json({ message: 'Doctor not found' });
-    //     }
-    // }
+     // READ: Get a specific doctor by ID
+     exports.getDocById = async(req,res) =>{
+        const {id} = req.params;
+        try{
+            const [rows] = await db.query('SELECT * FROM doctors WHERE id = ?',[id]);
+            if(rows.length === 0){
+                return res.status(404).json({message:'No Doctors Found'});
+            }
+            res.status(200).json(rows[0]);
+        }catch(error){
+            console.log("Error fetching doctor by ID:", error.message);
+            res.status(500).json({ error: "An error occurred while fetching the doctor" });
+        }
+        
+     }
 
-    // // READ: Get all doctors
+    // READ: Get all doctors
     // static async getAllDoctors(req, res) {
     //     try {
     //         const doctors = await Doctor.findAll();
