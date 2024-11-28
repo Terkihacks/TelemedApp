@@ -40,22 +40,43 @@ const db = require('../config/db');
 
 }
 
-// async function getAppointment(req,res){
-//     //Fetch info from the request body and perform the http requests
-//     const {id} = req.params;
-//     // Catch errors
-//     try{
-//      const appointment = await  appointmentModel.getAppointment(id);
-//      //Check if the appointment exists
-//      if(!appointment){
-//         res.status(404).json({message: "Appointment not found"});
-//      }
-//      res.status(200).json(appointment)
+exports.getAppointment = async(req,res) =>{
+//Get the following info from the database
+//Doctor name and doctor specialization from the doctors table
+//The appointment date , status and time from the appointment table
+  try{
+  const patient_id = req.user.id;
+  const query = `
+  SELECT
+  d.first_name AS doctor_name,
+  d.specialization AS doctor_specialization,
+  a.appointment_date,
+  a.appointment_time,
+  a.status
+  FROM
+  appointments a
+  INNER JOIN
+  doctors d ON a.doctor_id = d.id
+  WHERE
+  a.patient_id = ?
 
-//     }catch(error){
-//       res.status(500).json({error: 'Failed to get Appointment'})
-//     }
-// }
+  `
+  const [rows] = await db.execute(query,[patient_id]);
+          // Check if appointments were found
+          if (rows.length === 0) {
+            return res.status(404).json({ message: "No appointments found for the user." });
+        }
+
+// Send the appointment data as a response
+return res.status(200).json(rows);
+  }
+  catch(error){
+    console.error("Error fetching appointments:", error);
+    return res.status(500).json({ message: "An error occurred while fetching appointments." });
+  }
+}
+
+
 
 //  async function updateAppointment (req,res){
 //      //Fetch data from the req body
