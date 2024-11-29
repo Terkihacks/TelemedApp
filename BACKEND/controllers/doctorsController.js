@@ -1,17 +1,19 @@
 // controllers/DoctorController.js
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
     // CREATE: Add a new doctor
     exports.createDoctor = async(req,res) =>{
         try{
-            const{first_name,last_name,specialization,email,phone,schedule,password} = req.body || null;
+            const{first_name,last_name,specialization,email,phone,password} = req.body;
+            // console.log('Requested body',req.body)
             const [rows] = await db.execute('SELECT * FROM doctors WHERE email = ?',[email]);
             if (rows.length > 0){
                 return res.status(400).json({message:'Email already exists,register for a new Doctor Account'}); }
             
                 const hashedPassword = await bcrypt.hash(password,10);
-                await db.execute('INSERT INTO doctors(first_name,last_name,specialization,email,phone,schedule,password) VALUES(?,?,?,?,?,?,?)',
-                    [first_name,last_name,specialization,email,phone,schedule,hashedPassword]);
+                await db.execute('INSERT INTO doctors(first_name,last_name,specialization,email,phone,password) VALUES(?,?,?,?,?,?)',
+                    [first_name,last_name,specialization,email,phone,hashedPassword]);
                     res.status(200).json({message: 'Doctors Account created successfully'})
            
         }catch(error){
@@ -24,20 +26,21 @@ const bcrypt = require('bcryptjs');
     exports.loginDoctor = async(req,res) =>{
         try{
         
-            const{email,password} = req.body || null;
+            const{email,password} = req.body;
             const[rows] =  await db.execute('SELECT * FROM doctors WHERE email = ?',[email]);
             if(rows.length === 0){
                 return res.status(400).json({message:"Doctor not found,register for a new one"})
             }
             const doc = rows[0];
-            const isMatch = await bcrypt.compare(password,user.password);
+            const isMatch = await bcrypt.compare(password,doc.password);
             if(!isMatch){
                 return res.status(400).json({message:"Invalid Credentials"});
             }
             else{
                 //Generate a token
                 const token = jwt.sign(
-                    {
+                    {   
+                        id:doc.id,
                         email:doc.email,
                         first_name:doc.first_name
                     },
@@ -53,6 +56,7 @@ const bcrypt = require('bcryptjs');
             res.status(500).json({ message: 'Error logging in Patient', error });
         }
     }
+
      // READ: Get a specific doctor by ID
      exports.getDocById = async(req,res) =>{
         const {id} = req.params;

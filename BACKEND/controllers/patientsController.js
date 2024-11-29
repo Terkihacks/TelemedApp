@@ -123,17 +123,12 @@ const jwt = require('jsonwebtoken')
   //       res.status(500).json({ message: 'Error deleting patient account', error });
   //     }
   //   }
-
-  //    //A logout Method
-
-  //    static async logout(req,res){
-  //    //Destroy session
-  //    req.session.destroy(err => {
-  //     if (err) {
-  //         return res.status(500).json({ message: 'Could not log out' });
-  //     }
-  //     res.status(200).json({ message: 'Logout successful' });
-  // });
-  //    }
+      const blacklist = new Set(); 
+      exports.LogoutUser = async(req,res) =>{
+      const token  = req.headers['authorization']?.split(' ')[1];
+      if (!token) return res.status(400).json({ message: 'Token required' });
+      blacklist.add(token);
+      res.json({ message: 'Logged out successfully' });
+      }
 
   // }

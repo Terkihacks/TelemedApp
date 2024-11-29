@@ -76,8 +76,6 @@ return res.status(200).json(rows);
   }
 }
 
-
-
 //  async function updateAppointment (req,res){
 //      //Fetch data from the req body
 //      const {id} = req.params;
