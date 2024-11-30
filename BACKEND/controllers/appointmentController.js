@@ -76,6 +76,47 @@ return res.status(200).json(rows);
   }
 }
 
+exports.getdocAppointment = async(req,res) =>{
+  try{
+    const doctor_id = req.user.id;
+    const query = `
+    SELECT 
+    patients.first_name,
+    patients.last_name,
+    appointment_date,
+    appointment_time,
+    status,
+    doctors.id AS doctor_id
+    FROM 
+    appointments
+    INNER JOIN
+    patients ON appointments.patient_id = patients.id
+    INNER JOIN
+    doctors ON appointments.doctor_id = doctors.id
+    WHERE
+    doctors.id = ?
+    `
+    const [rows] = await db.execute(query,[doctor_id]);
+      //Check if appointments exist
+      if(rows.length === 0){
+        return res.status(404).json({
+          success:false,
+          message:'No appointments Found'
+        });
+       
+      }
+      //Send fetched data
+      return res.status(200).json({
+        // success:true,
+        message:'Appointments fetched successfully',
+        data:rows
+      })
+  }catch(error){
+  console.log(error)
+  return res.status(500).json({ message: "An error occurred while fetching appointments." });
+  }
+}
+
 //  async function updateAppointment (req,res){
 //      //Fetch data from the req body
 //      const {id} = req.params;
@@ -104,8 +145,3 @@ return res.status(200).json(rows);
                 
 //             }
 //     }
-// module.exports = {
-//     getAppointment,
-//     updateAppointment,
-//     deleteAppointment
-// };
