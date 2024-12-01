@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createDoctor,loginDoctor,getDocById} = require('../controllers/doctorsController');
+const {createDoctor,loginDoctor,getDocProfile, updateProfile,deleteById} = require('../controllers/doctorsController');
 const doctorMiddleware = require('../middleware/doctorMiddleware')
 
 router.post('/register', createDoctor);
@@ -16,10 +16,9 @@ router.get('/docdashboard',doctorMiddleware,(req,res) =>{
         }
     })
 });
-router.get('/doctors/:id', getDocById);
-// router.get('/doctors', doctorController.getAllDoctors);
-// router.put('/doctors/:id', doctorController.updateDoctor);
-// router.delete('/doctors/:id', doctorController.deleteDoctor);
+router.get('/profile/id',doctorMiddleware,getDocProfile)
+router.put('/updateprofile',doctorMiddleware,updateProfile)
+router.delete('/deleteprofile',doctorMiddleware,deleteById);
 
 module.exports = router;
 

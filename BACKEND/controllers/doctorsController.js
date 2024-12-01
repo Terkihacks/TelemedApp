@@ -57,55 +57,68 @@ const jwt = require('jsonwebtoken')
         }
     }
 
-     // READ: Get a specific doctor by ID
-     exports.getDocById = async(req,res) =>{
-        const {id} = req.params;
+     
+
+     //Fetch doctors profile by id
+
+     exports.getDocProfile = async(req,res) =>{
         try{
-            const [rows] = await db.query('SELECT * FROM doctors WHERE id = ?',[id]);
+            const doctor_id = req.user.id;
+            // console.log(`Fetching profile for doctor ID: ${doctor_id}`);
+            const [rows] = await db.query('SELECT * FROM doctors WHERE id = ?',[doctor_id]);
             if(rows.length === 0){
                 return res.status(404).json({message:'No Doctors Found'});
             }
-            res.status(200).json(rows[0]);
+            const { first_name, last_name, specialization, email, phone, password } = rows[0];
+          res.status(200).json({
+                message:"Doctors profile fetched successfully",
+                data:{
+                    first_name,last_name,specialization,email,phone,password
+                }
+            })
         }catch(error){
-            console.log("Error fetching doctor by ID:", error.message);
-            res.status(500).json({ error: "An error occurred while fetching the doctor" });
+            console.log(error)
         }
-        
      }
+ 
+    // UPDATE: Update a doctor's profile by id
+    exports.updateProfile = async(req,res) =>{
+        const doctor_id = req.user.id;
+        const { first_name, last_name, specialization, phone } = req.body;
+        // Check if the user to update is available
+        const [rows] = await db.query('SELECT * FROM doctors WHERE id = ?',[doctor_id]);
+            if(rows.length === 0){
+                return res.status(404).json({message:'No Doctors Found'});
+            }
+            const [updatedquery] = await db.query(`
+                UPDATE doctors SET 
+                first_name = ?,
+                last_name = ?, 
+                specialization = ?, 
+                phone = ?
+                 WHERE id = ?
+                `,[first_name, last_name, specialization, phone,doctor_id])
+               
+                res.status(200).json({
+                    message:"Doctors profile updated successfully",
+                    data:{first_name, last_name, specialization, phone}
+                })
 
-    // READ: Get all doctors
-    // static async getAllDoctors(req, res) {
-    //     try {
-    //         const doctors = await Doctor.findAll();
-    //         res.status(200).json(doctors);
-    //     } catch (error) {
-    //         console.error('Error retrieving doctors:', error);
-    //         res.status(500).json({ message: 'Could not retrieve doctors' });
-    //     }
-    // }
+    }
 
-    // // UPDATE: Update a doctor's profile or schedule
-    // static async updateDoctor(req, res) {
-    //     try {
-    //         const doctorId = req.params.id;
-    //         const doctorData = req.body;
-    //         await Doctor.update(doctorId, doctorData);
-    //         res.status(200).json({ message: 'Doctor updated successfully' });
-    //     } catch (error) {
-    //         console.error('Error updating doctor:', error);
-    //         res.status(500).json({ message: 'Could not update doctor' });
-    //     }
-    // }
-
-    // // DELETE: Deactivate or delete a doctor profile
-    // static async deleteDoctor(req, res) {
-    //     try {
-    //         const doctorId = req.params.id;
-    //         await Doctor.delete(doctorId);
-    //         res.status(200).json({ message: 'Doctor deleted successfully' });
-    //     } catch (error) {
-    //         console.error('Error deleting doctor:', error);
-    //         res.status(500).json({ message: 'Could not delete doctor' });
-    //     }
-    // }
-
+     // DELETE: Deactivate or delete a doctor profile
+   exports.deleteById = async(req,res) =>{
+        const doctor_id = req.user.id;
+        // Check if the user to update is available
+        const [rows] = await db.query('SELECT * FROM doctors WHERE id = ?',[doctor_id]);
+            if(rows.length === 0){
+                return res.status(404).json({message:'No Doctors Found'});
+            }
+            await db.query(`DELETE FROM doctors WHERE id = ?`,[doctor_id])
+            res.status(200).json({
+                message:"Doctors Account deleted succesfully"
+            })
+   }
+//Soft Delete Alternative: Instead of deleting the row from the database, consider marking it as inactive:
+// UPDATE doctors SET is_active = 0 WHERE id = ?;
+//This approach preserves historical data while preventing further use.
