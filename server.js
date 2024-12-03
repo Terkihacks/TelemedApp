@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const patientRoutes = require('./BACKEND/routes/patientRoutes');
 const doctorRoutes = require('./BACKEND/routes/doctorRoutes')
 const appointmentRoutes = require('./BACKEND/routes/appointmentRoutes')
+const adminRoutes = require('./BACKEND/routes/adminRoutes')
 const app = express();
 dotenv.config();
 const cors = require('cors');
@@ -20,7 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 // Use routes
 app.use('/patient', patientRoutes);
 app.use('/doctor',doctorRoutes);
-app.use('/appoint',appointmentRoutes)
+app.use('/appoint',appointmentRoutes);
+app.use('/admin',adminRoutes)
 
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));

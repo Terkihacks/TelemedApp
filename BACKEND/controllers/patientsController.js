@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken')
    exports.registerPatient = async(req,res)=>{
     try {
       // Fetch the data from the frontend
-      const { first_name, last_name, email, password, phone, date_of_birth, gender, address } = req.body || null;
+      const { first_name, last_name, email, password, phone, date_of_birth, gender, address,role } = req.body || null;
+      const userRole = role || 'Patient';
       console.log("Received body",req.body); // Log the incoming request body
       // Check if a user already exists with the given email
       const[rows] =  await db.execute('SELECT * FROM patients WHERE email = ? ', [email]);
@@ -19,8 +20,8 @@ const jwt = require('jsonwebtoken')
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await db.execute('INSERT INTO patients(first_name, last_name, email, password, phone, date_of_birth, gender, address) VALUES(?,?,?,?,?,?,?,?)',
-        [first_name, last_name, email, hashedPassword, phone, date_of_birth, gender, address]);
+      await db.execute('INSERT INTO patients(first_name, last_name, email, password, phone, date_of_birth, gender, address,role) VALUES(?,?,?,?,?,?,?,?,?)',
+        [first_name, last_name, email, hashedPassword, phone, date_of_birth, gender, address,userRole]);
 
       // Return success message
       res.status(200).json({ message: 'Patient account registered successfully'});
@@ -58,6 +59,7 @@ const jwt = require('jsonwebtoken')
               id:user.id,
               email:user.email,
               first_name:user.first_name,
+              role:user.role
             },
             process.env.SECRET_KEY,
             {
@@ -66,7 +68,6 @@ const jwt = require('jsonwebtoken')
           )
           //Send token back to the client
           res.status(200).json({ message: 'Login successful', token });
-          
         }
         
       }catch(error){
@@ -77,19 +78,21 @@ const jwt = require('jsonwebtoken')
     };
 
     exports.updatePatient = async(req,res) =>{
-     
       try{
-        const{id} = req.params;
-        const{first_name,last_name,phone,date_of_birth,gender,address} = req.body || null;
-      
-        const updatedData = { first_name, last_name, phone, date_of_birth, gender, address };
+        const patient_id = req.user.id;
+        const{first_name,last_name,phone,address} = req.body;
         
         const[result] = await db.query(
-          `UPDATE patients SET first_name = ?, last_name = ?, phone = ?, date_of_birth = ?, gender = ?, address = ?, updated_at = NOW() WHERE id = ?`,
-        [first_name, last_name, phone, date_of_birth, gender, address, id]
+          `UPDATE patients SET 
+          first_name = ?, 
+          last_name = ?, 
+          phone = ?,
+          address = ?,
+          WHERE id = ?`,
+        [first_name, last_name, phone, address, patient_id]
         );
   
-        if (result.affectedRows === 0) {
+        if (result.affectedRows === 0 ) {
           return res.status(404).json({ error: 'Patient not found' });
         }
         res.status(200).json({ message: 'Patient data updated successfully' });
@@ -131,4 +134,4 @@ const jwt = require('jsonwebtoken')
       res.json({ message: 'Logged out successfully' });
       }
 
-  // }
+

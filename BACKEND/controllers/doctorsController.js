@@ -5,15 +5,16 @@ const jwt = require('jsonwebtoken')
     // CREATE: Add a new doctor
     exports.createDoctor = async(req,res) =>{
         try{
-            const{first_name,last_name,specialization,email,phone,password} = req.body;
+            const{first_name,last_name,specialization,email,phone,password,role} = req.body;
+            const userRole = role || 'Doctor'
             // console.log('Requested body',req.body)
             const [rows] = await db.execute('SELECT * FROM doctors WHERE email = ?',[email]);
             if (rows.length > 0){
                 return res.status(400).json({message:'Email already exists,register for a new Doctor Account'}); }
             
                 const hashedPassword = await bcrypt.hash(password,10);
-                await db.execute('INSERT INTO doctors(first_name,last_name,specialization,email,phone,password) VALUES(?,?,?,?,?,?)',
-                    [first_name,last_name,specialization,email,phone,hashedPassword]);
+                await db.execute('INSERT INTO doctors(first_name,last_name,specialization,email,phone,password,role) VALUES(?,?,?,?,?,?,?)',
+                    [first_name,last_name,specialization,email,phone,hashedPassword,userRole]);
                     res.status(200).json({message: 'Doctors Account created successfully'})
            
         }catch(error){
@@ -22,7 +23,6 @@ const jwt = require('jsonwebtoken')
             res.status(500).json({ message: 'Error registering patient account', error });
         }
     }
-
     exports.loginDoctor = async(req,res) =>{
         try{
         
@@ -42,7 +42,8 @@ const jwt = require('jsonwebtoken')
                     {   
                         id:doc.id,
                         email:doc.email,
-                        first_name:doc.first_name
+                        first_name:doc.first_name,
+                        role:doc.role
                     },
                     process.env.SECRET_KEY,
                     {
@@ -56,9 +57,6 @@ const jwt = require('jsonwebtoken')
             res.status(500).json({ message: 'Error logging in Patient', error });
         }
     }
-
-     
-
      //Fetch doctors profile by id
 
      exports.getDocProfile = async(req,res) =>{

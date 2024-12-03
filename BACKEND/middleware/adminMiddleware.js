@@ -1,29 +1,20 @@
 // middleware/adminMiddleware.js
+const jwt = require('jsonwebtoken')
 
-const adminMiddleware = (requireRole) => {
-    return (req, res, next) => {
-        // Check if req.user exists and has a role
-        if (!req.user || !req.user.role) {
-            return res.status(403).json({ message: 'Access denied' });
-        }
-
-        const userRole = req.user.role;
-
-        // Allow access if the user has the required role or is a Super Admin
-        if ( userRole === 'Super Admin') {
-            return next();
-        } 
-
-        // Allow access for Admin, Moderator,Doctor or patient roles
-        const allowedRoles = ['Admin', 'Moderator', 'patient','Doctor'];
-        if (allowedRoles.includes(userRole)) {
-            return next();
-        } 
-
-        // Deny access if no conditions are met
-        return res.status(403).json({ message: 'Access denied' });
-        
-    }
+const VerifyRole = (requiredRoles) =>(req,res,next) => {
+      const authHeaders = req.headers['authorization'];
+      const token = authHeaders && authHeaders.split(' ')[1];
+      if(!token) return res.status(403).json({message: 'Token required'});
+      
+      jwt.verify(token,process.env.SECRET_KEY,(err,user) =>{
+        if(err) return res.status(403).json({message:'Invalid Token'});
+        req.user = user
+      //Check if the user role is allowed 
+      if (!requiredRoles.includes(user.role)) {
+        return res.status(403).json({ message: 'Access Denied' });
+      }
+      next();
+    });
 }
 
-module.exports = adminMiddleware;
+module.exports = VerifyRole;

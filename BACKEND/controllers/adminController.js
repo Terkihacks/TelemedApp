@@ -1,72 +1,74 @@
+const db = require('../config/db');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
-const AdminModel = require('../models/Admin');
-// Create a new admin
-async function createAdmin(req, res) {
-    const { username, password, role } = req.body;
-    try {
-        const adminId = await AdminModel.create(username, password, role);
-        res.status(201).json({ message: 'Admin created successfully', id: adminId });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to create admin' });
+exports.createAdmin = async(req,res) =>{
+    try{
+        const{fullname,email,phone,username,password,role} = req.body;
+        
+        const userRole = role || 'Admin'
+        // console.log('Requested body',req.body)
+        const [rows] = await db.execute('SELECT * FROM admin WHERE username = ?',[username]);
+        if (rows.length > 0){
+            return res.status(400).json({message:'Username already exists,register for a new Admin Account'}); }
+        
+            const hashedPassword = await bcrypt.hash(password,10);
+            await db.execute(
+                'INSERT INTO admin(fullname, username, email, phone, password, role) VALUES(?,?,?,?,?,?)',
+                [fullname, username, email, phone, hashedPassword, userRole]
+            );
+       
+    }catch(error){
+        console.log(error);
+        console.error('Registration error:', error.message || error);
+        res.status(500).json({ message: 'Error registering admin account', error });
     }
 }
 
-// Get admin by ID
-async function getAdmin(req, res) {
-    const {username } = req.params;
-    const userRole = req.user.role;
-    if(userRole === 'SuperAdmin'||  userRole === 'Admin'){
-        try {
-            const admin = await AdminModel.findByUsername(username);
-            if (!admin) {
-                return res.status(404).json({ error: 'Admin not found' });
-            }
-            res.status(200).json(admin);
-        } catch (error) {
-            res.status(500).json({ error: 'Failed to fetch admin' });
+//To log in an admin
+exports.loginAdmin = async(req,res) =>{
+    try{
+        const{email,password} = req.body;
+        const[rows] =  await db.execute('SELECT * FROM admin WHERE email = ?',[email]);
+        if(rows.length === 0){
+            return res.status(400).json({message:"Admin  not found,register for a new one"})
         }
-    
-    } else{
-        return res.status(403).json({ error: 'Unauthorized to access to access this page' });
-
-    }
-  
-}
-
-// Update an admin
-async function updateAdmin(req, res) {
-    const { id } = req.params;
-    const updates = req.body;
-
-    try {
-        const affectedRows = await AdminModel.update(id, updates);
-        if (affectedRows === 0) {
-            return res.status(404).json({ error: 'Admin not found or nothing to update' });
+        const admin = rows[0];
+        const isMatch = await bcrypt.compare(password,admin.password);
+        if(!isMatch){
+            return res.status(400).json({message:"Invalid Credentials"});
         }
-        res.status(200).json({ message: 'Admin updated successfully' });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to update admin' });
+        else{
+            //Generate a token
+            const token = jwt.sign(
+                {   
+                    id:admin.id,
+                    username:admin.email,
+                    role:admin.role
+                },
+                process.env.SECRET_KEY,
+                {
+                    expiresIn:'1hr'
+                }
+            )
+            res.status(200).json({ message: 'Login successful', token });
+        }           
+    }catch(error){
+        console.log(error);
+        res.status(500).json({ message: 'Error logging in Admin ', error });
     }
 }
 
-// Delete an admin
-async function deleteAdmin(req, res) {
-    const { id } = req.params;
-
-    try {
-        const affectedRows = await AdminModel.delete(id);
-        if (affectedRows === 0) {
-            return res.status(404).json({ error: 'Admin not found' });
+//Delete the user
+exports.deleteAdmin = async(req,res) =>{
+    const admin_id = req.user.id;
+    // Check if the user to update is available
+    const [rows] = await db.query('SELECT * FROM admin WHERE id = ?',[admin_id]);
+        if(rows.length === 0){
+            return res.status(404).json({message:'No Admin Found'});
         }
-        res.status(200).json({ message: 'Admin deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to delete admin' });
-    }
+        await db.query(`DELETE FROM admin WHERE id = ?`,[admin_id])
+        res.status(200).json({
+            message:"Doctors Account deleted succesfully"
+        })
 }
-
-module.exports = {
-    createAdmin,
-    getAdmin,
-    updateAdmin,
-    deleteAdmin
-};
