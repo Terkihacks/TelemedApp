@@ -59,6 +59,9 @@ exports.loginAdmin = async(req,res) =>{
     }
 }
 
+//Update admin
+
+
 //Delete the user
 exports.deleteAdmin = async(req,res) =>{
     const admin_id = req.user.id;
@@ -72,3 +75,4 @@ exports.deleteAdmin = async(req,res) =>{
             message:"Doctors Account deleted succesfully"
         })
 }
+

@@ -17,7 +17,7 @@ router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
         }
     })
 });
-router.put('/updateProf/:id',jwtTokenMiddleware,updatePatient);
+router.put('/updateProf/id',jwtTokenMiddleware,updatePatient);
 router.post('/logout',jwtTokenMiddleware,LogoutUser)
 
 module.exports = router;

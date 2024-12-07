@@ -1,0 +1,4 @@
+-- SHOW DATABASES;
+USE telemed_db;
+SHOW TABLES;
+SELECT * FROM patients;
