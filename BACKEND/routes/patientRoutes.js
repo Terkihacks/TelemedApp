@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {registerPatient,loginPatient,updatePatient,LogoutUser} = require('../controllers/patientsController');
+const {registerPatient,loginPatient,updatePatient,LogoutUser,getPatient} = require('../controllers/patientsController');
 const jwtTokenMiddleware = require('../middleware/jwtTokenMiddleware')
 
 router.post('/register',registerPatient);
@@ -17,7 +17,8 @@ router.get('/dashboard', jwtTokenMiddleware, (req, res) => {
         }
     })
 });
-router.put('/updateProf/id',jwtTokenMiddleware,updatePatient);
+router.get('/profile/id',jwtTokenMiddleware,getPatient)
+router.put('/updateprofile',jwtTokenMiddleware,updatePatient);
 router.post('/logout',jwtTokenMiddleware,LogoutUser)
 
 module.exports = router;

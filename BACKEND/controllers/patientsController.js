@@ -77,17 +77,37 @@ const jwt = require('jsonwebtoken')
 
     };
 
+    //GET Patient profile by id
+    exports.getPatient = async(req,res) =>{
+      try{
+        const patient_id = req.user.id;
+        const [rows] = await db.query('SELECT * FROM patients WHERE id = ?',[patient_id])
+        if (rows.length == 0){
+          return res.status(404).json({message:"No patients found"})
+        }
+        const {first_name,last_name,phone,address,email,password} = rows[0];
+        res.status(200).json({
+          message:'Patient fetched successfully',
+          data:{
+            first_name,last_name,phone,address,email,password
+          }
+        })
+      }catch(error){
+        console.log(error)
+      }
+    }
+
     exports.updatePatient = async(req,res) =>{
       try{
         const patient_id = req.user.id;
         const{first_name,last_name,phone,address} = req.body;
         
         const[result] = await db.query(
-          `UPDATE patients SET 
+        `UPDATE patients SET 
           first_name = ?, 
           last_name = ?, 
           phone = ?,
-          address = ?,
+          address = ?
           WHERE id = ?`,
         [first_name, last_name, phone, address, patient_id]
         );
