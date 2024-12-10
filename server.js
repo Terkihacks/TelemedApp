@@ -26,7 +26,13 @@ app.use('/admin',adminRoutes);
 
 
 // Serve the 'Frontend' folder as the root
-app.use(express.static(path.join(__dirname, 'Frontend')));
+app.use('/Frontend', express.static(path.join(__dirname, 'Frontend')));
+
+
+
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
 
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));
