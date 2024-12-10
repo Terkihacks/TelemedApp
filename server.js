@@ -11,7 +11,7 @@ dotenv.config();
 const cors = require('cors');
 
 
-app.use(express.static(path.join(__dirname,'/')))
+
 app.use(cors());
 app.use(express.json());
 
@@ -24,10 +24,13 @@ app.use('/doctor',doctorRoutes);
 app.use('/appoint',appointmentRoutes);
 app.use('/admin',adminRoutes);
 
+app.use('/Frontend', express.static(path.join(__dirname, 'Frontend')));
 
-app.get('Frontend',(req,res) =>{
-  res.sendFile(path.join(__dirname,'Frontend'))
-})
+app.get('/Frontend/*', (req, res) => {
+  const filePath = path.join(__dirname, req.path);
+  res.sendFile(filePath);
+});
+
 
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));
