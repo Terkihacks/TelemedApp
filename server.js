@@ -22,8 +22,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/patient', patientRoutes);
 app.use('/doctor',doctorRoutes);
 app.use('/appoint',appointmentRoutes);
-app.use('/admin',adminRoutes)
+app.use('/admin',adminRoutes);
 
+
+// Serve static files from the 'frontend' directory
+app.use(express.static(path.join(__dirname, '../Frontend')));
+
+
+// Serve static files from the 'frontend' directory
+app.use(express.static(path.join(__dirname, '../frontend')));
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));
 })
