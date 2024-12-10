@@ -26,7 +26,7 @@ app.use('/admin',adminRoutes);
 
 
 // Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, '../Frontend')));
+app.use(express.static(path.join(__dirname, './Telemed/Frontend')));
 
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));
