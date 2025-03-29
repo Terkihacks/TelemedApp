@@ -24,20 +24,24 @@ app.use('/doctor',doctorRoutes);
 app.use('/appoint',appointmentRoutes);
 app.use('/admin',adminRoutes);
 
-app.use('/Frontend', express.static(path.join(__dirname, 'Frontend')));
+// app.use('/Frontend', express.static(path.join(__dirname, 'Frontend')));
 
-app.get('/Frontend/*', (req, res) => {
-  const filePath = path.join(__dirname, req.path);
-  res.sendFile(filePath);
-});
-
+// app.get('/Frontend/*', (req, res) => {
+//   const filePath = path.join(__dirname, req.path);
+//   res.sendFile(filePath);
+// });
+// Serve static files - add these lines
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.get('/',(request,response) =>{
   response.sendFile(path.join(__dirname,'index.html'));
 })
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 4500, () => {
   console.log(`Server running on port ${process.env.PORT || 3000}`);
 });
 
